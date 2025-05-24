@@ -1,6 +1,12 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
+@theme {
+  --color-gray-blue-100: #e6edf3;
+  /* white oppacity */
+  --color-white-opp: rgba(255, 255, 255, 0.5);
+}
+
 @font-face {
   font-family: "Caveat";
   src: url("https://fonts.gstatic.com/s/caveat/v17/Wnz6HAc5bAfYB2Q7ZjY5.woff2")
@@ -29,10 +35,9 @@ body {
   line-height: 1.5;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
+  color: rgba(255, 255, 255, 0.9);
   background-color: var(--color-base-100);
 
-  font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -80,7 +85,7 @@ button:focus-visible {
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
-    background-color: #ffffff;
+    background-color: #fefefb;
   }
   a:hover {
     color: #747bff;
