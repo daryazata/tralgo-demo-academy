@@ -14,7 +14,7 @@ interface Props {
 }
 
 export function VideoPlayerContainer(props: Props) {
-  const [playNext, setPlayNext] = useState(false);
+  const [autoPlay, setAutoplay] = useState(false);
   const [showNextPrompt, setShowNextPrompt] = useState(false);
   const { selectedLection, setSelectedLection, setAllPhases, allPhases } =
     props;
@@ -51,12 +51,13 @@ export function VideoPlayerContainer(props: Props) {
             playerVars: { showinfo: 1 },
           },
         }}
-        playing={playNext ? true : false}
+        playing={autoPlay ? true : false}
         width={"100%"}
         height={"100%"}
         controls
         loop={false}
         url={selectedLection.videoLink}
+        onStart={() => setAutoplay(true)}
         onEnded={() => {
           setShowNextPrompt(true);
         }}
@@ -66,7 +67,6 @@ export function VideoPlayerContainer(props: Props) {
         <ShowNextPrompt
           handleSetNextVideo={handleSetNextVideo}
           setShowNextPrompt={setShowNextPrompt}
-          setPlayNext={setPlayNext}
         />
       )}
     </div>
