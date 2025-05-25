@@ -11,7 +11,11 @@ interface Props {
 export function PhaseItem(props: Props) {
   const { phase, selectedLection, setSelectedLection } = props;
   return (
-    <div className=" collapse collapse-arrow border-slate-400 shadow-md shadow-gray-500/8  dark:bg-base-100 dark:border-slate-400 border ">
+    <div
+      className={`collapse collapse-arrow border-slate-400 shadow-md shadow-gray-500/8  dark:bg-base-100 dark:border-slate-400 border ${
+        phase.phaseNr > 4 && `dark:border-slate-600`
+      }`}
+    >
       {phase.content && (
         // hardcoded
         <input type="checkbox" defaultChecked={phase.phaseNr == 4} />
