@@ -1,68 +1,49 @@
-import ReactPlayer from "react-player";
-import { Fragment } from "react/jsx-runtime";
+import { useEffect, useState } from "react";
 import "./App.css";
-import logo from "./assets/logo-tralgo-weiss.png";
+
+import { CourseHeader } from "./components/CourseHeader";
+import { Header } from "./components/Header";
+import { PhaseItem } from "./components/PhaseItem";
+import { VideoPlayerContainer } from "./components/VideoPlayerContainer";
 import { learningPhases, type Lection } from "./data/data";
+import { getNextLectionToPlayFromAll } from "./utils";
 
 function App() {
-  function getNextAllowedLectionIndex(content: Lection[]): number {
-    return content.findIndex((l) => !l.done);
-  }
+  const [allPhases, setAllPhases] = useState(learningPhases);
+  const [selectedLection, setSelectedLection] = useState<Lection>();
+
+  useEffect(() => {
+    const firstUndone = getNextLectionToPlayFromAll(allPhases);
+    if (firstUndone) {
+      setSelectedLection(firstUndone);
+    }
+  }, [allPhases]);
 
   return (
     <div className="main-container ">
-      <header className=" flex items-center mb-6 p-4">
-        <img src={logo} alt="Logo" className="h-8 w-auto   " />
-      </header>
-      <div className=" h-160  react-player flex">
-        <div className="flex-2">
-          <ReactPlayer
-            width={"100%"}
-            height={"100%"}
-            controls
-            url="https://www.youtube.com/watch?v=snh0S7jx9fI&list=PL0-wFncoJOmwvoFR70ut9ub2vqjpHptBI&index=4"
+      <Header />
+      <div className="h-[75vh] react-player flex">
+        {selectedLection && (
+          <VideoPlayerContainer
+            selectedLection={selectedLection}
+            setSelectedLection={setSelectedLection}
+            allPhases={allPhases}
+            setAllPhases={setAllPhases}
           />
-        </div>
-        {/* course content */}
-        <div className="flex-1 overflow-y-scroll rounded-r-lg ">
-          <div className="h-13 dark:border-gray-400 border-gray-200 border-t-2 flex items-center justify-center   dark:bg-base-100">
-            <b>Dein aktueller Kurs: Intraday</b>
-          </div>
-          {learningPhases.map((phase) => {
-            return (
-              <Fragment key={phase.phaseNr}>
-                <div className="collapse collapse-arrow border-gray-200 shadow-md shadow-gray-500/15  dark:bg-base-100 dark:border-base-300 border ">
-                  {phase.content && <input type="checkbox" />}
-                  <div className="collapse-title font-semibold flex items-center">
-                    <span>{`Phase ${phase.phaseNr}:`}</span>
-                    <span className="ml-3">{phase.title}</span>
-                  </div>
+        )}
 
-                  <div className="collapse-content  text-sm">
-                    {phase.content?.map((item, index) => {
-                      const nextAllowedIndex = getNextAllowedLectionIndex(
-                        phase.content!
-                      );
-                      const isClickable =
-                        item.done || index === nextAllowedIndex;
-                      return (
-                        <div
-                          className={`h-14 border-gray-200 dark:border-base-300 ${
-                            isClickable
-                              ? ` hover:bg-slate-100 dark:hover:bg-gray-600`
-                              : `text-gray-400 dark:text-white-opp`
-                          } shadow-md shadow-gray-500/10  border-b-1  p-4 pl-6 flex ${
-                            isClickable && `cursor-pointer`
-                          }`}
-                          key={item.lectionNr}
-                        >
-                          <span>{`${phase.phaseNr}.${item.lectionNr} ${item.title}`}</span>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              </Fragment>
+        <div className="flex-1 overflow-y-scroll rounded-r-lg pl-2">
+          <CourseHeader />
+          {allPhases.map((phase) => {
+            return (
+              selectedLection && (
+                <PhaseItem
+                  selectedLection={selectedLection}
+                  setSelectedLection={setSelectedLection}
+                  phase={phase}
+                  key={phase.phaseNr}
+                />
+              )
             );
           })}
         </div>
