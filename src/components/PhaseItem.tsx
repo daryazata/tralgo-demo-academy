@@ -12,8 +12,10 @@ export function PhaseItem(props: Props) {
   const { phase, selectedLection, setSelectedLection } = props;
   return (
     <div
-      className={`collapse collapse-arrow border-slate-400 shadow-md shadow-gray-500/8  dark:bg-base-100 dark:border-slate-400 border ${
-        phase.phaseNr > 4 && `dark:border-slate-600`
+      className={`collapse collapse-arrow  shadow-md shadow-gray-500/8  dark:bg-base-100  border ${
+        phase.phaseNr > 4
+          ? `dark:border-slate-600 border-slate-300`
+          : `border-slate-400 dark:border-slate-400`
       }`}
     >
       {phase.content && (

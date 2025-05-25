@@ -52,7 +52,6 @@ export function VideoPlayerContainer(props: Props) {
           },
         }}
         playing={playNext ? true : false}
-        muted
         width={"100%"}
         height={"100%"}
         controls
